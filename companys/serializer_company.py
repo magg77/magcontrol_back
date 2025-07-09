@@ -37,6 +37,7 @@ class CompanySerializer(serializers.ModelSerializer):
         
         #crear el usuario admin asociado a la empresa
         admin_user = User.objects.create_user(
+            identification_number = admin_data['identification_number'],
             email = admin_data['email'],
             username = admin_data['username'],
             password = admin_data['password'],

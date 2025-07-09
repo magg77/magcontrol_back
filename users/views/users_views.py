@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -31,12 +31,16 @@ class LogoutView(APIView):
     
     def post(self, request):
         try:
-            refresh_token = request.data["refresh"]
+            refresh_token = request.data.get("refresh")
+            if not refresh_token:
+                return Response({"error": "Token de actualización requerido."}, status=status.HTTP_400_BAD_REQUEST)
+
             token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response({"message": "Sesión cerrada correctamente"})
+
+            return Response({"detail": "Sesión cerrada correctamente"}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response(status=400, data={"error": str(e)})
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # update user
@@ -59,15 +63,19 @@ class ChangePasswordView(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         user = self.get_object()
         serializer = self.get_serializer(data=request.data)
-        
+
         if serializer.is_valid():
-            if not user.check_password(serializer.validated_data.get("current_password")):
-                return Response({"current_password": "Contraseña actual incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
-            
-            user.set_password(serializer.validated_data.get("new_password"))
+            current_password = serializer.validated_data.get("current_password")
+            new_password = serializer.validated_data.get("new_password")
+
+            if not user.check_password(current_password):
+                return Response({"current_password": "Contraseña actual incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
+
+            user.set_password(new_password)
             user.save()
-            return Response({"detail": "Contraseña actualizada correctamente"}, status=status.HTTP_200_OK)
-        
+
+            return Response({"detail": "Contraseña actualizada correctamente."}, status=status.HTTP_200_OK)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         

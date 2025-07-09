@@ -6,15 +6,23 @@ User = get_user_model()
 
 # register user
 class UserRegisterSerializer(serializers.ModelSerializer):
+    identification_number = serializers.CharField(
+        required=True,
+        max_length=20,
+        validators=[UniqueValidator(queryset=User.objects.all(), message="Este número de identificación ya está registrado.")],
+        write_only=True
+    )
+    
     email = serializers.EmailField(
         required = True,
         validators = [UniqueValidator(queryset=User.objects.all())]
     )
+    
     password = serializers.CharField(write_only=True, min_length=6)
         
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'rol', 'password', 'company']
+        fields = ['id', 'identification_number', 'email', 'username', 'rol', 'password', 'company']
     
     def validate(self, data):
         company = data.get('company')
@@ -41,14 +49,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'rol']
+        fields = ['id', 'identification_number', 'email', 'username', 'rol']
 
 
 # create company with user admin
 class AdminUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'username', 'rol', 'password']
+        fields = ['identification_number', 'email', 'username', 'rol', 'password']
         extra_kwargs = {
             'password': {'write_only': True},
             'rol': {'default': 'admin'}
@@ -66,6 +74,10 @@ class AdminUserSerializer(serializers.ModelSerializer):
         email = data['email'].lower()
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError("Ya existe un usuario con este correo electrónico.")
+        
+        if User.objects.filter(identification_number=data['identification_number']).exists():
+            raise serializers.ValidationError("Ya existe un usuario con este número de identificación.")
+            
         return data
 
        
@@ -73,8 +85,9 @@ class AdminUserSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'username', 'rol', 'company', 'is_active']
+        fields = ['id', 'identification_number', 'email', 'username', 'rol', 'company', 'is_active']
         extra_kwargs = {
+            'identification_number': {'required': False},
             'email': {'required': False},
             'username': {'required': False},
             'rol': {'required': False},

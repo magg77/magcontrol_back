@@ -38,7 +38,7 @@ ROLES = (
 class UserManager(BaseUserManager):
     
     #Crea un usuario regular. Es llamado cuando haces User.objects.create_user(...)    
-    def create_user(self, email, username, rol, company, password=None, **extra_fields):
+    def create_user(self, identification_number, email, username, rol, company, password=None, **extra_fields):
         if not email:
             raise ValueError("El usuario debe tener un email")
         if rol not in ROL_GRUPO_MAP:
@@ -50,6 +50,7 @@ class UserManager(BaseUserManager):
         
         # Crea la instancia del usuario
         user = self.model(
+            identification_number=identification_number,
             email=email,
             username=username,
             rol=rol,
@@ -84,6 +85,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         
         user = self.create_user(
+            identification_number=extra_fields.get('identification_number', '0000000000'),  # 👈 Asignar uno por defecto o exigirlo
             email = self.normalize_email(email),
             username = username,
             rol='admin',
@@ -102,6 +104,14 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     # AbstractBaseUser: gestiona la autenticación por contraseña, login-logout
     # PermissionsMixin: añade campos como is_superuser, groups y user_permissions
         
+    identification_number = models.CharField(
+        max_length=20,
+        unique=True,
+        null=True,  # o False si quieres que sea obligatorio
+        blank=True,  # o False si quieres que sea obligatorio
+        verbose_name='Número de Identificación',
+        help_text='Número único de identificación del usuario (cédula, NIT, etc.)'
+    )    
     email = models.EmailField(unique=True) # Este será el identificador principal del usuario
     username = models.CharField(max_length=100) # Nombre del usuario
     rol = models.CharField(max_length=20, choices=ROLES) # Rol del usuario (tipo)
