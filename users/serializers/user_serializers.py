@@ -108,4 +108,24 @@ class ChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(required=True, write_only=True, min_length=6)
 
 
-# recovery password   
+# recovery password
+
+#validaciones adicionales
+"""
+Token expirado por tiempo.
+Reintentos fallidos.
+Validar contraseña fuerte."""
+
+class RequestPasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        if not User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("No hay usuario con este email")
+        return value
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=8, write_only=True)
+    uidb64 = serializers.CharField()
+    token = serializers.CharField()

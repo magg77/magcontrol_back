@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 from datetime import timedelta
 
@@ -20,14 +22,40 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-vaq!=jdm42$9t99i^aps5ajos_^b!v-!8cnnd0u+3c9(g9#n$_"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+# Variable de entorno que define qué entorno usar
+env = os.environ.get('DJANGO_ENV', 'dev')  # dev por defecto
 
+# Cargar el archivo .env
+load_dotenv(dotenv_path=BASE_DIR / f'.env.{env}')
+
+
+# export DJANGO_ENV=dev
+#ENV = os.getenv('DJANGO_ENV', 'dev')  # por defecto 'dev'   
+# Cargar el archivo adecuado
+#env_file = BASE_DIR / f".env.{ENV}"
+#load_dotenv(dotenv_path=env_file)
+
+DEBUG = os.getenv('DEBUG') == 'True'
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+#ALLOWED_HOSTS = []
+
+
+# recovery password
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'   #imprime el email en back
+EMAIL_HOST = os.getenv('EMAIL_HOST')  # o el que uses
+EMAIL_PORT =  os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL') # dominio
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+FRONTEND_URL = os.getenv('FRONTEND_URL')  # Cambia según tu entorno
 
 # Application definition
 
@@ -89,11 +117,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "magcontrol_db",
-        "USER": "root",
-        "PASSWORD": "magg",
-        "HOST": "localhost",
-        "PORT": "3306",
+        "NAME": os.getenv('DB_NAME'),
+        "USER": os.getenv('DB_USER'),
+        "PASSWORD": os.getenv('DB_PASSWORD'),
+        "HOST": os.getenv('DB_HOST', 'localhost'),
+        "PORT": os.getenv('DB_PORT', '3306'),
         "default-character-set": "utf8mb4"
     },
 }

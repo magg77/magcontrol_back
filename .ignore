@@ -142,3 +142,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Archivos enviroment
+.env
