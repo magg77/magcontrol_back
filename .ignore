@@ -1,0 +1,144 @@
+# ================================
+# Django / Python API REST
+# ================================
+
+# Python bytecode, logs, compiled, and cache files
+*.py[cod]
+*$py.class
+__pycache__/
+*.log
+*.pot
+*.bak
+*.manifest
+*.spec
+
+# SQLite (desarrollo)
+db.sqlite3
+
+# Archivos de entorno
+.env
+.env.*
+.venv
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# Entornos virtuales (por convención)
+.Python
+
+# Carpeta media para archivos subidos
+/media/
+
+# Archivos de cobertura y testing
+.coverage
+.coverage.*
+.cache
+.noseids
+nosetests.xml
+htmlcov/
+.tox/
+.pytest_cache/
+.cover
+.hypothesis/
+.mypy_cache/
+*.cover
+coverage.xml
+
+# Distribución y empaquetado
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg
+*.egg-info/
+.installed.cfg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Celery
+celerybeat-schedule.*
+celerybeat.pid
+
+# MkDocs
+/site
+
+# Sphinx
+docs/_build/
+*.mo
+*.pot
+
+# Django migrations (opcional - solo si generas temporalmente)
+# **/migrations/*.py
+# **/migrations/__pycache__/
+
+# ================================
+# IDEs y editores
+# ================================
+
+# PyCharm / IntelliJ
+.idea/
+*.iws
+out/
+# Archivos específicos de configuración (IDE local)
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries/
+.idea/**/shelf/
+.idea/**/aws.xml
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/gradle.xml
+.idea/**/libraries/
+atlassian-ide-plugin.xml
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# Archivos de historial y control de cambios local
+.history
+
+# Configuración SFTP
+sftp-config.json
+
+# ================================
+# Otros
+# ================================
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
