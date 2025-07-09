@@ -4,6 +4,7 @@ from rest_framework.validators import UniqueValidator
 
 User = get_user_model()
 
+# register user
 class UserRegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required = True,
@@ -34,12 +35,16 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         
         user = User.objects.create_user(password=password, **validated_data)
         return user    
+
         
+# get profile       
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'username', 'rol']
-        
+
+
+# create company with user admin
 class AdminUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -62,7 +67,32 @@ class AdminUserSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError("Ya existe un usuario con este correo electrónico.")
         return data
+
+       
+# update user
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'username', 'rol', 'company', 'is_active']
+        extra_kwargs = {
+            'email': {'required': False},
+            'username': {'required': False},
+            'rol': {'required': False},
+            'company': {'required': False},
+        }
     
+    def validate(self, attrs):
+        instance = self.instance
+        if instance and not instance.is_superuser:
+            if not attrs.get('company') and not instance.company:
+                raise serializers.ValidationError("El usuario debe estar asociado a una empresa.")
+        return attrs    
+
+
+# change password user
 class ChangePasswordSerializer(serializers.Serializer):
     current_password = serializers.CharField(required=True, write_only=True)
-    new_password = serializers.CharField(required=True, write_only=True, min_length=6)   
+    new_password = serializers.CharField(required=True, write_only=True, min_length=6)
+
+
+# recovery password   
