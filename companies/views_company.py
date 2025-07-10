@@ -1,7 +1,9 @@
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
+
 from .models import Company
 from .serializer_company import CompanyAdminSerializer, CompanySerializer
-from rest_framework.permissions import AllowAny
+
 
 class CompanyAdminViewSet(viewsets.ModelViewSet):
     queryset = Company.objects.none()

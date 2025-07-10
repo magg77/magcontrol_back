@@ -4,8 +4,8 @@ from .views_company import CompanyAdminViewSet, CompanyViewSet
 
 router = DefaultRouter()
 
-router.register(r'create-company', CompanyAdminViewSet, basename='create-company') #crear empresa con usuario admin
-router.register(r'company', CompanyViewSet, basename='company')
+router.register(r'companies/create-with-admin', CompanyAdminViewSet, basename='companies/create-with-admin') #crear empresa con usuario admin
+router.register(r'companies', CompanyViewSet, basename='companies')
 
 urlpatterns = [
     path('', include(router.urls))
