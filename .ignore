@@ -144,6 +144,6 @@ Thumbs.db
 *~
 
 # Archivos enviroment
-.env
+.env*
 .env.dev
 .env.prod

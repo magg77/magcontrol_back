@@ -206,10 +206,11 @@ Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) pa
 
 ## 👨‍💻 Autor
 
-**Tu Nombre**
-- LinkedIn: [Tu perfil de LinkedIn]
-- GitHub: [Tu perfil de GitHub]
-- Email: tu.email@ejemplo.com
+**Maggiver Acevedo**
+- 💼 LinkedIn: [Maggiver Acevedo](https://www.linkedin.com/in/maggiver-acevedo-6287b01a3/)
+- 🐱 GitHub: [@magg77](https://github.com/magg77)
+- 📧 Email: escenariopaloma@gmail.com
+*Desarrollador Backend especializado en Django, Python y APIs REST. Apasionado por crear soluciones escalables y seguras.*
 
 ## 🌟 Reconocimientos
 
@@ -223,3 +224,12 @@ Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) pa
 
 💼 **¿Qué opinas del stack tecnológico?**
 ¿Agregarías alguna funcionalidad adicional? ¡Déjame saber en los issues!
+
+
+## 📸 Capturas de Pantalla y Diagramas
+
+### Ejemplo de Request/Response
+![API Demo](https://raw.githubusercontent.com/magg77/imgs/master/request.jpg)
+
+### Modelo de Datos
+![API Demo](https://github.com/magg77/imgs/blob/master/model-shema.bmp)
