@@ -11,7 +11,7 @@ from django.contrib.auth.models import (
 from django.utils import timezone
 from django.utils.timezone import localtime
 
-from companys.models_company import Company
+from companies.models import Company
 from commons.utils.validators import validate_user_company
 
 
@@ -123,7 +123,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     updated_at = models.DateTimeField(default=timezone.now) # Fecha de última modificación
     
     company = models.ForeignKey(
-        'companys.Company',
+        'companies.Company',
         on_delete=models.CASCADE,
         related_name='usuarios',
         null=True,  # 👈 Permite NULL en base de datos

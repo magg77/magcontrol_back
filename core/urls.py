@@ -23,5 +23,5 @@ urlpatterns = [
     path('', lambda request: HttpResponseRedirect('/admin')),  # Redirige la raíz
     path("admin/", admin.site.urls),
     path("api/v1/", include("users.urls_user")),
-    path("api/v1/", include("companys.urls_company"))
+    path("api/v1/", include("companies.urls_company"))
 ]

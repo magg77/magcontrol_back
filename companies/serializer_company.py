@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from companys.models_company import Company
+from companies.models import Company
 from users.models import User
 from users.serializers.user_serializers import AdminUserSerializer
 
-class CompanySerializer(serializers.ModelSerializer):
+class CompanyAdminSerializer(serializers.ModelSerializer):
     admin = AdminUserSerializer(write_only = True)
     
     class Meta:
@@ -46,3 +46,9 @@ class CompanySerializer(serializers.ModelSerializer):
         )
         
         return company
+    
+    
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = '__all__'           

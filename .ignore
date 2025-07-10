@@ -145,3 +145,5 @@ Thumbs.db
 
 # Archivos enviroment
 .env
+.env.dev
+.env.prod
